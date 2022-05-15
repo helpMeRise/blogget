@@ -32,17 +32,11 @@
 }
 
 .ups {
-    font-weight: 700;
-    font-size: 12px;
     line-height: 130%;
     color: var(--grey66);
 }
 
 @media (min-width: 580px) {
-
-    .ups {
-        font-size: 16px;
-    }
 
     .up,
     .down {
