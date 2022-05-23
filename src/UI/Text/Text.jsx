@@ -43,7 +43,7 @@ Text.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
-    PropTypes.array
+    PropTypes.array,
   ]),
   href: PropTypes.string,
   center: PropTypes.bool,

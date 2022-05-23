@@ -1,6 +1,7 @@
 import style from './Auth.module.css';
 import PropTypes from 'prop-types';
 import {ReactComponent as AuthIcon} from './img/login.svg';
+// import {SVG} from '../../../UI/SVG';
 
 export const Auth = ({auth}) => (
   <button className={style.button}>
