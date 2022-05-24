@@ -1,16 +1,45 @@
 import style from './Auth.module.css';
 import PropTypes from 'prop-types';
 import {ReactComponent as AuthIcon} from './img/login.svg';
+import {urlAuth} from '../../../api/auth';
+import {Text} from '../../../UI/Text';
+import {useAuth} from '../../../hooks/useAuth';
 // import {SVG} from '../../../UI/SVG';
 
-export const Auth = ({auth}) => (
-  <button className={style.button}>
-    {auth ? auth :
-      <AuthIcon className={style.svg}/>
-    }
-  </button>
-);
+export const Auth = ({token, delToken}) => {
+  const [auth, setAuth] = useAuth({token});
+
+  const handleLogoutBtn = () => {
+    const btn = document.querySelector(`.${style.logout}`);
+    btn.classList.toggle(`${style.logout_active}`);
+  };
+
+  const logOut = () => {
+    setAuth({});
+    delToken();
+    handleLogoutBtn();
+  };
+
+  return (
+    <div className={style.container}>
+      {auth.name ? (
+        <button className={style.btn} onClick={handleLogoutBtn}>
+          <img className={style.img}
+            src={auth.img}
+            title={auth.name}
+            alt={`Аватар ${auth.name}`}/>
+        </button>
+      ) : (
+        <Text className={style.authLink} As='a' href={urlAuth}>
+          <AuthIcon className={style.svg} />
+        </Text>
+      )}
+      <button className={style.logout} onClick={logOut}>Выйти</button>
+    </div>
+  );
+};
 
 Auth.propTypes = {
-  auth: PropTypes.bool,
+  token: PropTypes.string,
+  delToken: PropTypes.func,
 };
