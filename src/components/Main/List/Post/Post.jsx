@@ -8,14 +8,14 @@ import {Date} from './Date/Date';
 import {Delete} from './Delete/Delete';
 
 export const Post = ({postData}) => {
-  const {title, author, ups, date} = postData;
+  const {title, author, ups, created, url, thumbnail} = postData;
 
   return (
     <li className={style.post}>
-      <Avatar title={title}/>
-      <Content title={title} author={author}/>
+      <Avatar title={title} thumbnail={thumbnail} />
+      <Content title={title} author={author} url={url} />
       <Rating ups={ups}/>
-      <Date date={date}/>
+      <Date date={created}/>
       <Delete />
     </li>
   );

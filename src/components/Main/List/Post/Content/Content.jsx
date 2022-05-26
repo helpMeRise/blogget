@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Text} from '../../../../../UI/Text';
 
-export const Content = ({title, author}) => {
+export const Content = ({title, author, url}) => {
   console.log();
   return (
     <div className={style.content}>
@@ -11,7 +11,7 @@ export const Content = ({title, author}) => {
         className={style.title}>
         <Text As='a'
           size={18}
-          tsize={24} className={style.linkPost} href="#post">{title}</Text>
+          tsize={24} className={style.linkPost} href={url}>{title}</Text>
       </Text>
       <Text As='a'
         color='orange'
@@ -25,5 +25,6 @@ export const Content = ({title, author}) => {
 Content.propTypes = {
   title: PropTypes.string,
   author: PropTypes.string,
+  url: PropTypes.string,
 };
 
