@@ -6,7 +6,6 @@ import {postsContext} from '../../../context/postsContext';
 
 export const List = () => {
   const {posts} = useContext(postsContext);
-  console.log(posts);
 
   // const postsData = [
   //   {
