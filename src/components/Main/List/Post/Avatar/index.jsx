@@ -1,2 +1,2 @@
-import {Avatar} from './Avatar';
-export default Avatar;
+import {Thumbnail} from './Thumbnail';
+export default Thumbnail;

@@ -3,7 +3,7 @@ import notPhoto from './img/notphoto.jpg';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Avatar = ({title, thumbnail}) => {
+export const Thumbnail = ({title, thumbnail}) => {
   console.log();
   return (
     <img className={style.img}
@@ -11,7 +11,7 @@ export const Avatar = ({title, thumbnail}) => {
         notPhoto : thumbnail} alt={title} />
   );
 };
-Avatar.propTypes = {
+Thumbnail.propTypes = {
   title: PropTypes.string,
   thumbnail: PropTypes.string,
 };

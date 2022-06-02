@@ -8,23 +8,33 @@ export const useBestPosts = () => {
   const arr = [];
 
   useEffect(() => {
-    fetch(`${URL_API}/best`, {
+    if (!token) return;
+    fetch(`${URL_API}/best?limit=20`, {
       headers: {
         'Authorization': `bearer ${token}`,
       },
     })
-      .then(response => response.json())
-      .then(data => data.data)
-      .then(data => data.children)
-      .then(data => {
-        data.forEach(item => {
-          arr.push(item.data);
-        });
-        return arr;
+      .then(response => {
+        if (response.status === 401) {
+          return;
+        }
+        return response.json();
       })
-      .then(data => setPosts(data))
+      .then(({data}) => {
+        data.children.forEach(item => arr.push(item.data));
+        setPosts(arr);
+      })
+      // .then(async response => {
+      //   let data = await response.json();
+      //   data = data.data.children;
+      //   data.forEach(item => {
+      //     arr.push(item.data);
+      //   });
+      //   setPosts(arr);
+      // })
       .catch((err) => console.error(err));
   }, [token]);
+
 
   return [posts];
 };

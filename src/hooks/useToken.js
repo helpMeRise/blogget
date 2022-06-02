@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 
-export const useToken = (state) => {
-  const [token, setToken] = useState(state);
+export const useToken = () => {
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     if (location.pathname.includes('/auth')) {
