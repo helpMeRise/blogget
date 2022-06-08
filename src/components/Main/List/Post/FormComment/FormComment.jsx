@@ -1,14 +1,18 @@
 import style from './FormComment.module.css';
-import {useRef, useState} from 'react';
+import {useState, useRef} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {updateComment} from '../../../../../store';
+
 
 export const FormComment = () => {
   const inputRef = useRef(null);
-  // const focusRef = useRef(null);
+  const value = useSelector(state => state.comment);
+  const dispatch = useDispatch();
   const [isTextArea, setIsTextArea] = useState(false);
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(inputRef.current.value);
+    console.log(value);
   };
 
   const handleClick = e => {
@@ -18,18 +22,28 @@ export const FormComment = () => {
     }, 0);
   };
 
+  const handleChange = e => {
+    dispatch(updateComment(e.target.value));
+  };
+
 
   return (
     <>
       {!isTextArea ? (
         <button
           className={style.btn}
-          onClick={handleClick}>
+          onClick={handleClick}
+        >
           Написать комментарий
         </button>
       ) : (
         <form className={style.form} onSubmit={handleSubmit}>
-          <textarea className={style.textarea} ref={inputRef}/>
+          <textarea
+            className={style.textarea}
+            value={value}
+            onChange={handleChange}
+            ref={inputRef}
+          />
           <button type='submit'
             className={style.btn}
           >
