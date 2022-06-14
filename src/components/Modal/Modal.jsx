@@ -7,6 +7,8 @@ import {useCommentsData} from '../../hooks/useCommentsData';
 import {Text} from '../../UI/Text';
 import {FormComment} from '../Main/List/Post/FormComment/FormComment';
 import {Comments} from '../Main/List/Post/Comments/Comments';
+import {useSelector} from 'react-redux';
+import {Preloader} from '../../UI/Preloader/Preloader';
 
 export const Modal = ({closeModal, id}) => {
   const overlayRef = useRef(null);
@@ -36,34 +38,42 @@ export const Modal = ({closeModal, id}) => {
     };
   }, []);
 
+  const status = useSelector(state => state.commentsReducer.status);
+  const error = useSelector(state => state.commentsReducer.error);
+
   return ReactDOM.createPortal(
     <div className={style.overlay} ref={overlayRef}>
       <div className={style.modal}>
-        <h2 className={style.title}>{postData.title}</h2>
+        {status === 'loading' && (<Preloader color='lightblue' size='150px'/>)}
+        {status === 'error' && (<p>{error}</p>)}
+        {status === 'loaded' && (
+          <>
+            <h2 className={style.title}>{postData.title}</h2>
+            <div className={style.content}>
+              {postData.selftext ? (
+                postData.selftext
+              ) : (
+                'У этого поста нет текста'
+              )}
+            </div>
 
-        <div className={style.content}>
-          {postData.selftext ? (
-            postData.selftext
-          ) : (
-            'У этого поста нет текста'
-          )}
-        </div>
+            <Text as='p' className={style.author}>
+              {postData.author}
+            </Text>
 
-        <Text as='p' className={style.author}>
-          {postData.author}
-        </Text>
+            <FormComment/>
 
-        <FormComment/>
+            {comments.length ? (
+              <Comments comments={comments}/>
+            ) : (
+              'Загрузка...'
+            )}
 
-        {comments.length ? (
-          <Comments comments={comments}/>
-        ) : (
-          'Загрузка...'
+            <button className={style.close}>
+              <CloseIcon/>
+            </button>
+          </>
         )}
-
-        <button className={style.close}>
-          <CloseIcon/>
-        </button>
       </div>
     </div>,
     document.getElementById('modal-root'),

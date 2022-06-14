@@ -1,12 +1,12 @@
 import style from './FormComment.module.css';
 import {useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {updateComment} from '../../../../../store';
+import {updateComment} from '../../../../../store/commetReducer';
 
 
 export const FormComment = () => {
   const inputRef = useRef(null);
-  const value = useSelector(state => state.comment);
+  const value = useSelector(state => state.commentReducer.comment);
   const dispatch = useDispatch();
   const [isTextArea, setIsTextArea] = useState(false);
 

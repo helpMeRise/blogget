@@ -1,11 +1,11 @@
+import {useBestPosts} from '../../../hooks/useBestPosts';
+import {Preloader} from '../../../UI/Preloader/Preloader';
 import style from './List.module.css';
 import Post from './Post';
 // import {useBestPosts} from '../../../hooks/useBestPosts';
-import {useContext} from 'react';
-import {postsContext} from '../../../context/postsContext';
 
 export const List = () => {
-  const {posts} = useContext(postsContext);
+  const [posts, loading] = useBestPosts();
 
   // const postsData = [
   //   {
@@ -43,10 +43,17 @@ export const List = () => {
   // ];
 
   return (
-    <ul className={style.list}>
-      {posts.map((postData) => (
-        <Post key={postData.id} postData={postData}/>
-      ))}
-    </ul>
+    <>
+      {loading ? (
+        <Preloader color='#000' size='400px'/>
+      ) : (
+        <ul className={style.list}>
+          {posts.map((postData) => (
+            <Post key={postData.id} postData={postData}/>
+          ))}
+        </ul>
+      )}
+    </>
   );
 };
+
