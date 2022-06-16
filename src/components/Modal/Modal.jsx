@@ -9,8 +9,11 @@ import {FormComment} from '../Main/List/Post/FormComment/FormComment';
 import {Comments} from '../Main/List/Post/Comments/Comments';
 import {useSelector} from 'react-redux';
 import {Preloader} from '../../UI/Preloader/Preloader';
+import {useNavigate, useParams} from 'react-router-dom';
 
-export const Modal = ({closeModal, id}) => {
+export const Modal = () => {
+  const {id, page} = useParams();
+  const navigate = useNavigate();
   const overlayRef = useRef(null);
 
   const [comments, postData] = useCommentsData(id);
@@ -19,13 +22,13 @@ export const Modal = ({closeModal, id}) => {
     const target = e.target;
     if (target === overlayRef.current ||
       target.closest(`.${style.close}`)) {
-      closeModal();
+      navigate(`/category/${page}`);
     }
   };
 
   const handlePress = e => {
     if (e.keyCode === 27) {
-      closeModal();
+      navigate(`/category/${page}`);
     }
   };
 

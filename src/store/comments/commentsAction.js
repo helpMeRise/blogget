@@ -23,7 +23,7 @@ export const commentsRequestAsync = (id) => (dispatch, getState) => {
   const token = getState().tokenReducer.token;
   if (!token) return;
   dispatch(commentsRequest());
-  axios(`${URL_API}/comments/${id}?limit=5`, {
+  axios(`${URL_API}/comments/${id}`, {
     headers: {
       'Authorization': `bearer ${token}`,
     },

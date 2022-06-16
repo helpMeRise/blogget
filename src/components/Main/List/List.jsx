@@ -1,58 +1,46 @@
-import {useBestPosts} from '../../../hooks/useBestPosts';
-import {Preloader} from '../../../UI/Preloader/Preloader';
+import {useEffect, useRef} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Outlet, useParams} from 'react-router-dom';
+import {postsRequestAsync} from '../../../store/posts/postsAction';
 import style from './List.module.css';
 import Post from './Post';
-// import {useBestPosts} from '../../../hooks/useBestPosts';
 
 export const List = () => {
-  const [posts, loading] = useBestPosts();
+  const posts = useSelector(state => state.postsReducer.data);
+  const endList = useRef(null);
+  const dispatch = useDispatch();
+  const {page} = useParams();
 
-  // const postsData = [
-  //   {
-  //     thumbnail: '',
-  //     title: 'Title1',
-  //     author: 'Nickname1',
-  //     ups: 77,
-  //     date: '2022-01-21T04:22:00.000Z',
-  //     id: '123',
-  //   },
-  //   {
-  //     thumbnail: '',
-  //     title: 'Title2',
-  //     author: 'Nickname2',
-  //     ups: 58,
-  //     date: '2022-01-31T00:00:00.000Z',
-  //     id: '345',
-  //   },
-  //   {
-  //     thumbnail: '',
-  //     title: 'Title3',
-  //     author: 'Nickname3',
-  //     ups: 124,
-  //     date: '2022-03-10T08:00:00.000Z',
-  //     id: '567',
-  //   },
-  //   {
-  //     thumbnail: '',
-  //     title: 'Title4',
-  //     author: 'Nickname4',
-  //     ups: 24,
-  //     date: '2022-05-12T00:45:00.000Z',
-  //     id: '789',
-  //   },
-  // ];
+  useEffect(() => {
+    dispatch(postsRequestAsync(page));
+  }, [page]);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        dispatch(postsRequestAsync());
+      }
+    }, {
+      rootMargin: '100px',
+    });
+
+    observer.observe(endList.current);
+
+    return () => {
+      if (endList.current) {
+        observer.unobserve(endList.current);
+      }
+    };
+  }, [endList.current]);
   return (
     <>
-      {loading ? (
-        <Preloader color='#000' size='400px'/>
-      ) : (
-        <ul className={style.list}>
-          {posts.map((postData) => (
-            <Post key={postData.id} postData={postData}/>
-          ))}
-        </ul>
-      )}
+      <ul className={style.list}>
+        {posts.map(({data}) => (
+          <Post key={data.id} postData={data}/>
+        ))}
+        <li ref={endList} className={style.end}/>
+      </ul>
+      <Outlet/>
     </>
   );
 };
