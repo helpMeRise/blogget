@@ -17,7 +17,7 @@ export const List = () => {
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
+      if (entries[0].isIntersecting && posts.length <= 20) {
         dispatch(postsRequestAsync());
       }
     }, {
@@ -31,7 +31,12 @@ export const List = () => {
         observer.unobserve(endList.current);
       }
     };
-  }, [endList.current]);
+  }, [endList.current, posts]);
+
+  const handleClick = () => {
+    dispatch(postsRequestAsync());
+  };
+
   return (
     <>
       <ul className={style.list}>
@@ -40,6 +45,9 @@ export const List = () => {
         ))}
         <li ref={endList} className={style.end}/>
       </ul>
+      {posts.length >= 30 &&
+        <button
+          className={style.btn} onClick={handleClick}>Загрузить еще</button>}
       <Outlet/>
     </>
   );

@@ -15,6 +15,7 @@ const initialState = {
   page: '',
 };
 
+
 export const postsReducer = (state = initialState, action) => {
   switch (action.type) {
     case POSTS_REQUEST:

@@ -5,6 +5,7 @@ import {commentReducer} from './commetReducer';
 import {authReducer} from './auth/authReducer';
 import {postsReducer} from './posts/postsReducer';
 import {commentsReducer} from './comments/commentsReducer';
+import {countMiddleware, countReducer} from './count/countReducer';
 import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
@@ -13,9 +14,10 @@ const rootReducer = combineReducers({
   authReducer,
   postsReducer,
   commentsReducer,
+  countReducer,
 });
 
 export const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(tokenMiddleware, thunk)),
+  composeWithDevTools(applyMiddleware(tokenMiddleware, countMiddleware, thunk)),
 );
