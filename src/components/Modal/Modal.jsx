@@ -42,7 +42,8 @@ export const Modal = () => {
   }, []);
 
   const status = useSelector(state => state.commentsReducer.status);
-  const error = useSelector(state => state.commentsReducer.error);
+  const error = useSelector(state => state.commentsReducer.error)
+    .replace(/(AxiosError: )/, '');
 
   return ReactDOM.createPortal(
     <div className={style.overlay} ref={overlayRef}>
