@@ -32,10 +32,8 @@ import {URL_API} from '../../api/const';
 export const postsRequestAsync = createAsyncThunk(
   'posts/fetch',
   (newPage, {getState}) => {
-    let page = getState().postsReducer.page;
-    if (newPage) {
-      page = newPage;
-    }
+    const page = newPage || getState().postsReducer.page;
+
     const token = getState().tokenReducer.token;
     const after = getState().postsReducer.after;
     // const loading = getState().postsReducer.loading;
@@ -49,13 +47,7 @@ export const postsRequestAsync = createAsyncThunk(
           'Authorization': `bearer ${token}`,
         },
       })
-      .then(({data}) => {
-        if (after) {
-          return {posts: data.data.children};
-        } else {
-          return {posts: data.data.children};
-        }
-      })
-      .catch((error) => ({error}));
+      .then(({data}) => data.data)
+      .catch((error) => ({error: error.toString()}));
   },
 );

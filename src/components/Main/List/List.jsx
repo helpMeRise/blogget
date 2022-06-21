@@ -2,6 +2,7 @@ import {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Outlet, useParams} from 'react-router-dom';
 import {postsRequestAsync} from '../../../store/posts/postsAction';
+import {postsSlice} from '../../../store/posts/postsSlice';
 import style from './List.module.css';
 import Post from './Post';
 
@@ -12,7 +13,7 @@ export const List = () => {
   const {page} = useParams();
 
   useEffect(() => {
-    dispatch(postsRequestAsync(page));
+    dispatch(postsSlice.actions.changePage(page));
   }, [page]);
 
   useEffect(() => {
