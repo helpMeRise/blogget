@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {postsRequestAsync} from './postsAction';
+// import {postsRequestAsync} from './postsAction';
 
 const initialState = {
   loading: false,
@@ -14,41 +14,29 @@ export const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    changePage: (state, action) => {
-      state.page = action.payload;
-      state.after = '';
-      state.isLast = false;
-      state.data = [];
-    },
-  },
-  extraReducers: {
-    [postsRequestAsync.pending.type]: (state) => {
+    postsRequest: (state) => {
       state.loading = true;
       state.error = '';
     },
-    [postsRequestAsync.fulfilled.type]: (state, action) => {
+    postsRequestSuccess: (state, action) => {
       state.loading = false;
       state.data = [...state.data, ...action.payload.children];
       state.error = '';
       state.after = action.payload.after;
       state.isLast = !action.payload.after;
     },
-    [postsRequestAsync.rejected.type]: (state, action) => {
+    postsRequestError: (state, action) => {
       state.loading = false;
       state.error = action.payload.error;
     },
+    changePage: (state, action) => {
+      state.page = action.payload.payload;
+      state.after = '';
+      state.isLast = false;
+      state.data = [];
+    },
   },
+  extraReducers: {},
 });
 
 export default postsSlice.reducer;
-
-
-// case POSTS_REQUEST_SUCCESS_AFTER:
-//       return {
-//         ...state,
-//         loading: false,
-//         data: [...state.data, ...action.posts],
-//         error: '',
-//         after: action.after,
-//         isLast: !action.after,
-//       };

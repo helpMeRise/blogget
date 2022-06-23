@@ -1,7 +1,7 @@
 import {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Outlet, useParams} from 'react-router-dom';
-import {postsRequestAsync} from '../../../store/posts/postsAction';
+// import {postsRequestAsync} from '../../../store/posts/postsAction';
 import {postsSlice} from '../../../store/posts/postsSlice';
 import style from './List.module.css';
 import Post from './Post';
@@ -19,7 +19,7 @@ export const List = () => {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && posts.length <= 20) {
-        dispatch(postsRequestAsync());
+        dispatch(postsSlice.actions.postsRequest(page));
       }
     }, {
       rootMargin: '100px',
@@ -35,7 +35,7 @@ export const List = () => {
   }, [endList.current, posts]);
 
   const handleClick = () => {
-    dispatch(postsRequestAsync());
+    dispatch(postsSlice.actions.postsRequest(page));
   };
 
   return (
